@@ -493,22 +493,6 @@ declare class Vec2 {
     radians(): number;
 }
 
-declare enum TriOrientationEnum {
-    CounterClockwise = 0,
-    Clockwise = 1,
-    Colinear = 2
-}
-
-declare class Tri2 {
-    readonly a: Vec2;
-    readonly b: Vec2;
-    readonly c: Vec2;
-    constructor(a: Vec2, b: Vec2, c: Vec2);
-    vertices(): [Vec2, Vec2, Vec2];
-    contains(vec: Vec2): boolean;
-    orientation(): TriOrientationEnum;
-}
-
 declare class Tri4 {
     readonly a: Vec4;
     readonly b: Vec4;
@@ -527,6 +511,22 @@ declare class Quad4 {
     triangles(): [Tri4, Tri4];
 }
 
+declare enum TriOrientationEnum {
+    CounterClockwise = 0,
+    Clockwise = 1,
+    Colinear = 2
+}
+
+declare class Tri2 {
+    readonly a: Vec2;
+    readonly b: Vec2;
+    readonly c: Vec2;
+    constructor(a: Vec2, b: Vec2, c: Vec2);
+    vertices(): [Vec2, Vec2, Vec2];
+    contains(vec: Vec2): boolean;
+    orientation(): TriOrientationEnum;
+}
+
 declare class Quad2 {
     readonly a: Vec2;
     readonly b: Vec2;
@@ -542,7 +542,8 @@ declare class Dim2 {
     readonly width: number;
     readonly height: number;
     constructor(width: number, height: number);
-    static dft(): Dim2;
+    static unit(): Dim2;
+    static zero(): Dim2;
     to_vec2(): Vec2;
     mul_scalar(factor: number): Dim2;
     scale_to_contain(other: Dim2): Dim2;
@@ -571,8 +572,9 @@ declare class AlRect2 {
     readonly width: number;
     readonly height: number;
     constructor(center: Vec2, width: number, height: number);
-    static dft(): AlRect2;
-    static parse_any(obj: any): AlRect2;
+    static zero(): AlRect2;
+    static unit(): AlRect2;
+    static parse_obj(obj: any): AlRect2;
     static corner_at(corner: RectCorner, pos: Vec2, width: number, height: number): AlRect2;
     static bl_at(pos: Vec2, width: number, height: number): AlRect2;
     static from_opposing_points(a: Vec2, b: Vec2): AlRect2;
@@ -582,7 +584,6 @@ declare class AlRect2 {
     dim(): Dim2;
     vertex(corner: RectCorner): Vec2;
     vertices(): [Vec2, Vec2, Vec2, Vec2];
-    triangles(): [Tri2, Tri2];
 }
 
 declare class Rect2 {

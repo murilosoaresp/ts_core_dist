@@ -2,7 +2,7 @@ class Opt {
     constructor(val, is_some) {
         this.val = val;
         this._is_some = is_some;
-    } a
+    }
     static none() {
         return new Opt(null, false);
     }
@@ -1617,6 +1617,35 @@ function exaustive(_) {
     throw new Error();
 }
 
+class Tri4 {
+    constructor(a, b, c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    vertices() {
+        return [this.a, this.b, this.c];
+    }
+}
+
+class Quad4 {
+    constructor(a, b, c, d) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+    }
+    static repeate(val) {
+        return new Quad4(val.copy(), val.copy(), val.copy(), val.copy());
+    }
+    triangles() {
+        return [
+            new Tri4(this.a, this.b, this.c),
+            new Tri4(this.a, this.c, this.d),
+        ];
+    }
+}
+
 var JsMath;
 (function (JsMath) {
     function tol_eq(a, b) {
@@ -1681,35 +1710,6 @@ class Tri2 {
         else {
             return TriOrientationEnum.Clockwise;
         }
-    }
-}
-
-class Tri4 {
-    constructor(a, b, c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-    vertices() {
-        return [this.a, this.b, this.c];
-    }
-}
-
-class Quad4 {
-    constructor(a, b, c, d) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-    }
-    static repeate(val) {
-        return new Quad4(val.copy(), val.copy(), val.copy(), val.copy());
-    }
-    triangles() {
-        return [
-            new Tri4(this.a, this.b, this.c),
-            new Tri4(this.a, this.c, this.d),
-        ];
     }
 }
 
@@ -1801,8 +1801,11 @@ class Dim2 {
         this.width = width;
         this.height = height;
     }
-    static dft() {
+    static unit() {
         return new Dim2(1.0, 1.0);
+    }
+    static zero() {
+        return new Dim2(0.0, 0.0);
     }
     to_vec2() {
         return new Vec2(this.width, this.height);
@@ -1830,10 +1833,13 @@ class AlRect2 {
         this.width = width;
         this.height = height;
     }
-    static dft() {
+    static zero() {
+        return new AlRect2(Vec2.zero(), 0.0, 0.0);
+    }
+    static unit() {
         return new AlRect2(Vec2.zero(), 1.0, 1.0);
     }
-    static parse_any(obj) {
+    static parse_obj(obj) {
         return new AlRect2(Vec2.parse_obj(obj.center), obj.width, obj.height);
     }
     static corner_at(corner, pos, width, height) {
@@ -1896,13 +1902,6 @@ class AlRect2 {
             this.center.add(new Vec2(0.5 * this.width, -0.5 * this.height)),
             this.center.add(new Vec2(0.5 * this.width, 0.5 * this.height)),
             this.center.add(new Vec2(-0.5 * this.width, 0.5 * this.height)),
-        ];
-    }
-    triangles() {
-        let vertices = this.vertices();
-        return [
-            new Tri2(vertices[0], vertices[1], vertices[2]),
-            new Tri2(vertices[0], vertices[2], vertices[3]),
         ];
     }
 }
