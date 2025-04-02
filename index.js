@@ -2,7 +2,7 @@ class Opt {
     constructor(val, is_some) {
         this.val = val;
         this._is_some = is_some;
-    }
+    } a
     static none() {
         return new Opt(null, false);
     }
