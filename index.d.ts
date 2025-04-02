@@ -567,7 +567,7 @@ declare namespace RectCorner {
     export {  };
 }
 
-declare class AlRect2 {
+declare class AlRect2 { 
     readonly center: Vec2;
     readonly width: number;
     readonly height: number;
